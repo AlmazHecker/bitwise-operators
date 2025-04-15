@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Binary XOR</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+      .input-container {
+        margin: 20px 0;
+      }
+      input {
+        padding: 8px;
+        font-size: 16px;
+        width: 100px;
+        margin: 0 10px;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .animation-container {
+        margin-top: 30px;
+        display: none;
+        text-align: left;
+      }
+      .step {
+        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 4px;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+      }
+      .number-row {
+        font-family: monospace;
+        font-size: 20px;
+        margin: 5px 0;
+        letter-spacing: 4px;
+      }
+      .highlight {
+        color: #ff5722;
+        font-weight: bold;
+      }
+      .result-box {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f0f8ff;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Binary XOR Animation</h1>
+
+    <div class="input-container">
+      <label for="num1">First Number:</label>
+      <input type="number" id="num1" min="0" max="255" value="25" />
+
+      <label for="num2">Second Number:</label>
+      <input type="number" id="num2" min="0" max="255" value="45" />
+
+      <button id="submitBtn">Calculate XOR</button>
+    </div>
+
+    <div class="animation-container" id="animationContainer">
+      <div class="step" id="step1">
+        <h3>Step 1: Converting to Binary</h3>
+        <div id="binaryConversion"></div>
+      </div>
+
+      <div class="step" id="step2">
+        <h3>Step 2: Aligning Binary Numbers</h3>
+        <div id="binaryAlignment"></div>
+      </div>
+
+      <div class="step" id="step3">
+        <h3>Step 3: XOR Operation</h3>
+        <p>XOR rules: 0⊕0=0, 0⊕1=1, 1⊕0=1, 1⊕1=0</p>
+        <div id="xorOperation"></div>
+      </div>
+
+      <div class="step" id="step4">
+        <h3>Step 4: Final Result</h3>
+        <div class="result-box">
+          <div id="finalResult"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("submitBtn")
+        .addEventListener("click", startAnimation);
+
+      function startAnimation() {
+        // Get input values
+        const num1 = parseInt(document.getElementById("num1").value) || 0;
+        const num2 = parseInt(document.getElementById("num2").value) || 0;
+
+        // Validate input (limit to 0-255 for simpler display)
+        if (num1 < 0 || num1 > 255 || num2 < 0 || num2 > 255) {
+          alert("Please enter numbers between 0 and 255");
+          return;
+        }
+
+        // Calculate XOR
+        const result = num1 ^ num2;
+
+        // Convert to 8-bit binary
+        const binary1 = num1.toString(2).padStart(8, "0");
+        const binary2 = num2.toString(2).padStart(8, "0");
+        const binaryResult = result.toString(2).padStart(8, "0");
+
+        // Show the animation container
+        const animationContainer =
+          document.getElementById("animationContainer");
+        animationContainer.style.display = "block";
+
+        // Reset all steps
+        document.querySelectorAll(".step").forEach((step) => {
+          step.style.opacity = 0;
+        });
+
+        // Step 1: Show binary conversion
+        setTimeout(() => {
+          const binaryConversion = document.getElementById("binaryConversion");
+          binaryConversion.innerHTML = `
+                    <p>First number: ${num1} in decimal</p>
+                    <p class="number-row">Binary: ${binary1}</p>
+                    <p>Second number: ${num2} in decimal</p>
+                    <p class="number-row">Binary: ${binary2}</p>
+                `;
+          document.getElementById("step1").style.opacity = 1;
+        }, 500);
+
+        // Step 2: Show aligned binary numbers
+        setTimeout(() => {
+          const binaryAlignment = document.getElementById("binaryAlignment");
+          binaryAlignment.innerHTML = `
+                    <p class="number-row">Number 1: ${binary1}</p>
+                    <p class="number-row">Number 2: ${binary2}</p>
+                `;
+          document.getElementById("step2").style.opacity = 1;
+        }, 2000);
+
+        // Step 3: Show XOR operation with animation
+        setTimeout(() => {
+          const xorOperation = document.getElementById("xorOperation");
+          xorOperation.innerHTML = `
+                    <p class="number-row">Number 1: ${binary1}</p>
+                    <p class="number-row">Number 2: ${binary2}</p>
+                    <p class="number-row">XOR:      ${" ".repeat(8)}</p>
+                `;
+          document.getElementById("step3").style.opacity = 1;
+
+          // Animate the XOR operation bit by bit
+          let displayResult = "        "; // 8 spaces
+
+          function animateBit(index) {
+            if (index >= 8) return;
+
+            setTimeout(() => {
+              const bit1 = binary1[index];
+              const bit2 = binary2[index];
+              const resultBit = binaryResult[index];
+
+              // Update the display string
+              displayResult =
+                displayResult.substring(0, index) +
+                resultBit +
+                displayResult.substring(index + 1);
+
+              // Update the HTML with highlighted bits
+              xorOperation.innerHTML = `
+                            <p class="number-row">Number 1: ${highlightBit(
+                              binary1,
+                              index
+                            )}</p>
+                            <p class="number-row">Number 2: ${highlightBit(
+                              binary2,
+                              index
+                            )}</p>
+                            <p class="number-row">XOR:      ${highlightBit(
+                              displayResult,
+                              index
+                            )}</p>
+                        `;
+
+              // Move to next bit
+              animateBit(index + 1);
+            }, 500);
+          }
+
+          // Start animating bits
+          animateBit(0);
+        }, 3500);
+
+        // Step 4: Show final result
+        setTimeout(() => {
+          const finalResult = document.getElementById("finalResult");
+          finalResult.innerHTML = `
+                    <p>Decimal representation:</p>
+                    <p>${num1} XOR ${num2} = ${result}</p>
+                    <p>Binary representation:</p>
+                    <p class="number-row">${binary1} XOR ${binary2} = ${binaryResult}</p>
+                `;
+          document.getElementById("step4").style.opacity = 1;
+        }, 8000);
+      }
+
+      function highlightBit(binaryString, position) {
+        let result = "";
+        for (let i = 0; i < binaryString.length; i++) {
+          if (i === position) {
+            result += `<span class="highlight">${binaryString[i]}</span>`;
+          } else {
+            result += binaryString[i];
+          }
+        }
+        return result;
+      }
+    </script>
+  </body>
+</html>
