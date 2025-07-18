@@ -11,5 +11,7 @@ export default {
     },
   },
 
+   base: '/bitwise-operators/',
+
   plugins: [ViteMinifyPlugin()],
 };

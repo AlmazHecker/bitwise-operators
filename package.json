@@ -1,4 +1,5 @@
 {
+  "homepage": "https://github.com/AlmazHecker/bitwise-operators",
   "name": "bitwise-operators",
   "private": true,
   "version": "0.0.0",
@@ -6,9 +7,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "glob": "^11.0.1",
     "typescript": "~5.7.2",
     "vite": "^6.2.0",
