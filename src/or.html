@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
-    <title>Binary XOR with Division Animation (Refactored)</title>
+    <title>Binary OR with Division Animation (Refactored)</title>
   </head>
   <body>
-    <h1>Binary XOR Animation with Parallel Division by 2</h1>
+    <h1>Binary OR Animation with Parallel Division by 2</h1>
 
     <div class="input-container">
       <label for="num1">First Number:</label>
@@ -16,7 +16,7 @@
       <label for="num2">Second Number:</label>
       <input type="number" id="num2" min="0" max="255" value="45" />
 
-      <button id="submitBtn">Calculate XOR</button>
+      <button id="submitBtn">Calculate OR</button>
     </div>
 
     <div class="animation-container" id="animationContainer">
@@ -35,9 +35,9 @@
       </div>
 
       <div class="step" id="step3">
-        <h3>Step 3: XOR Operation</h3>
+        <h3>Step 3: OR Operation</h3>
         <div class="operation-rules">
-          <p><strong>XOR rules:</strong> 0⊕0=0, 0⊕1=1, 1⊕0=1, 1⊕1=0</p>
+          <p><strong>OR rules:</strong> 0∨0=0, 0∨1=1, 1∨0=1, 1∨1=1</p>
         </div>
         <div id="operation"></div>
       </div>
@@ -51,17 +51,35 @@
     </div>
 
     <script type="module">
-      import { runCompleteAnimation, bitwiseXOR } from './utils/index.ts';
+        import { runCompleteAnimation, bitwiseOR } from './utils/index.ts';
 
       function startAnimation() {
         const num1 = parseInt(document.getElementById("num1").value) || 0;
         const num2 = parseInt(document.getElementById("num2").value) || 0;
-
-        runCompleteAnimation(num1, num2, bitwiseXOR, "XOR");
+        
+        runCompleteAnimation(num1, num2, bitwiseOR, "OR");
       }
 
+      // Initialize event listeners
       document.getElementById("submitBtn").addEventListener("click", startAnimation);
 
+      // =============================================================================
+      // USAGE EXAMPLES FOR OTHER OPERATIONS
+      // =============================================================================
+
+      /*
+      // To use for AND operation:
+      // runCompleteAnimation(num1, num2, bitwiseAND, "AND");
+
+      // To use for XOR operation:
+      // runCompleteAnimation(num1, num2, bitwiseXOR, "XOR");
+
+      // To create a new operation:
+      // function customOperation(a, b) {
+      //   return a ^ b; // or any other bitwise operation
+      // }
+      // runCompleteAnimation(num1, num2, customOperation, "CUSTOM");
+      */
     </script>
   </body>
 </html>
