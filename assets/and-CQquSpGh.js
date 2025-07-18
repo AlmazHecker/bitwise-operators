@@ -1,0 +1,1 @@
+import{r as e,c as m}from"./index-ALjJULfc.js";/* empty css              */function i(){const t=parseInt(document.getElementById("num1").value)||0,n=parseInt(document.getElementById("num2").value)||0;e(t,n,m,"AND")}document.getElementById("submitBtn").addEventListener("click",i);
